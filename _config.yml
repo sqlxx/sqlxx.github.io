@@ -63,7 +63,7 @@ theme: pure
 deploy:
   type: ''
 
-neat_enable: true
+neat_enable: false
 neat_html:
   enable: true
   exclude:
