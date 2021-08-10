@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>爱学习的兔子</title>
+  
+  
+  <link href="https://www.cnsunqin.com/atom.xml" rel="self"/>
+  
+  <link href="https://www.cnsunqin.com/"/>
+  <updated>2021-08-10T04:56:09.715Z</updated>
+  <id>https://www.cnsunqin.com/</id>
+  
+  <author>
+    <name>Sun Qin</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>新的开始</title>
+    <link href="https://www.cnsunqin.com/2021/08/10/new-start/"/>
+    <id>https://www.cnsunqin.com/2021/08/10/new-start/</id>
+    <published>2021-08-10T02:34:14.000Z</published>
+    <updated>2021-08-10T04:56:09.715Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天用hexo在github上搭了这个个人blog，非常方便。以后会多写一些文章放到这里来。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;今天用hexo在github上搭了这个个人blog，非常方便。以后会多写一些文章放到这里来。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
