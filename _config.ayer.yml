@@ -229,6 +229,7 @@ ads:
   ad_1:
     title: 云服务器限时秒杀
     url: https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ds0kgiz
+    image: https://img.alicdn.com/tfs/TB13DzOjXP7gK0jSZFjXXc5aXXa-212-48.png
     width: 300
 
 # 网站开启加密访问，密码可设置任何字符
