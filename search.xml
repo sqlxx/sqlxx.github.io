@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>新的开始</title>
-      <link href="/2021/08/10/new-start/"/>
-      <url>/2021/08/10/new-start/</url>
-      
-        <content type="html"><![CDATA[<p>今天用hexo在github上搭了这个个人blog，非常方便。以后会多写一些文章放到这里来。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>新的开始</title>
+    <url>/2021/08/10/new-start/</url>
+    <content><![CDATA[<p>今天用hexo在github上搭了这个个人blog，非常方便。以后会多写一些文章放到这里来。</p>
+]]></content>
+  </entry>
 </search>
