@@ -1,7 +1,6 @@
 sidebar:
   menu:
     post: '[btn.blog](/)'
-    project: '[btn.wiki](/project)'
   widgets:
     default_layout: [welcome, recent]
     welcome:
