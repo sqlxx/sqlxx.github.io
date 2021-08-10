@@ -1,137 +1,275 @@
-/* eslint-disable node/no-unsupported-features/node-builtins */
-(function($, moment, ClipboardJS, config) {
-    $('.article img:not(".not-gallery-item")').each(function() {
-        // wrap images with link and add caption if possible
-        if ($(this).parent('a').length === 0) {
-            $(this).wrap('<a class="gallery-item" href="' + $(this).attr('src') + '"></a>');
-            if (this.alt) {
-                $(this).after('<p class="has-text-centered is-size-6 caption">' + this.alt + '</p>');
-            }
+console.log('hexo-theme-stellar:\n' + stellar.github);
+// utils
+const util = {
+
+  // https://github.com/jerryc127/hexo-theme-butterfly
+  diffDate: (d, more = false) => {
+    const dateNow = new Date()
+    const datePost = new Date(d)
+    const dateDiff = dateNow.getTime() - datePost.getTime()
+    const minute = 1000 * 60
+    const hour = minute * 60
+    const day = hour * 24
+    const month = day * 30
+
+    let result
+    if (more) {
+      const monthCount = dateDiff / month
+      const dayCount = dateDiff / day
+      const hourCount = dateDiff / hour
+      const minuteCount = dateDiff / minute
+
+      if (monthCount > 12) {
+        result = null
+      } else if (monthCount >= 1) {
+        result = parseInt(monthCount) + ' ' + stellar.config.date_suffix.month
+      } else if (dayCount >= 1) {
+        result = parseInt(dayCount) + ' ' + stellar.config.date_suffix.day
+      } else if (hourCount >= 1) {
+        result = parseInt(hourCount) + ' ' + stellar.config.date_suffix.hour
+      } else if (minuteCount >= 1) {
+        result = parseInt(minuteCount) + ' ' + stellar.config.date_suffix.min
+      } else {
+        result = stellar.config.date_suffix.just
+      }
+    } else {
+      result = parseInt(dateDiff / day)
+    }
+    return result
+  },
+
+  copy: (id, msg) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.select();
+      document.execCommand("Copy");
+      if (msg && msg.length > 0) {
+        hud.toast(msg);
+      }
+    }
+  },
+
+  toggle: (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.toggle("display");
+    }
+  },
+}
+
+const hud = {
+  toast: (msg, duration) => {
+    duration=isNaN(duration)?2000:duration;
+    var el = document.createElement('div');
+    el.classList.add('toast');
+    el.innerHTML = msg;
+    document.body.appendChild(el);
+    setTimeout(function() {
+      var d = 0.5;
+      el.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
+      el.style.opacity = '0';
+      setTimeout(function() { document.body.removeChild(el) }, d * 1000);
+    }, duration);
+  },
+
+}
+
+// defines
+
+const l_body = document.querySelector('.l_body');
+
+const sidebar = {
+  toggle: () => {
+    if (l_body) {
+      l_body.classList.add('mobile');
+      l_body.classList.toggle("sidebar");
+    }
+  }
+}
+
+const init = {
+  toc: () => {
+    stellar.jQuery(() => {
+      const scrollOffset = 32;
+      var segs = [];
+      $("article.md :header").each(function (idx, node) {
+        segs.push(node)
+      });
+      // 滚动
+      $(document, window).scroll(function(e) {
+        var scrollTop = $(this).scrollTop();
+        var topSeg = null
+        for (var idx in segs) {
+          var seg = $(segs[idx])
+          if (seg.offset().top > scrollTop + scrollOffset) {
+            continue
+          }
+          if (!topSeg) {
+            topSeg = seg
+          } else if (seg.offset().top >= topSeg.offset().top) {
+            topSeg = seg
+          }
         }
+        if (topSeg) {
+          $("#toc a.toc-link").removeClass("active")
+          var link = "#" + topSeg.attr("id")
+          if (link != '#undefined') {
+            $('#toc a.toc-link[href="' + encodeURI(link) + '"]').addClass("active")
+          } else {
+            $('#toc a.toc-link:first').addClass("active")
+          }
+        }
+      })
+    })
+  },
+  sidebar: () => {
+    stellar.jQuery(() => {
+      $("#toc a.toc-link").click(function(e) {
+        l_body.classList.remove("sidebar");
+      });
+    })
+  },
+  relativeDate: (selector) => {
+    selector.forEach(item => {
+      const $this = item
+      const timeVal = $this.getAttribute('datetime')
+      let relativeValue = util.diffDate(timeVal, true)
+      if (relativeValue) {
+        $this.innerText = relativeValue
+      }
+    })
+  },
+  /**
+   * Tabs tag listener (without twitter bootstrap).
+   */
+  registerTabsTag: function() {
+    // Binding `nav-tabs` & `tab-content` by real time permalink changing.
+    document.querySelectorAll('.tabs ul.nav-tabs .tab').forEach(element => {
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        // Prevent selected tab to select again.
+        if (element.classList.contains('active')) return;
+        // Add & Remove active class on `nav-tabs` & `tab-content`.
+        [...element.parentNode.children].forEach(target => {
+          target.classList.toggle('active', target === element);
+        });
+        // https://stackoverflow.com/questions/20306204/using-queryselector-with-ids-that-are-numbers
+        const tActive = document.getElementById(element.querySelector('a').getAttribute('href').replace('#', ''));
+        [...tActive.parentNode.children].forEach(target => {
+          target.classList.toggle('active', target === tActive);
+        });
+        // Trigger event
+        tActive.dispatchEvent(new Event('tabs:click', {
+          bubbles: true
+        }));
+      });
     });
 
-    if (typeof $.fn.lightGallery === 'function') {
-        $('.article').lightGallery({ selector: '.gallery-item' });
-    }
-    if (typeof $.fn.justifiedGallery === 'function') {
-        if ($('.justified-gallery > p > .gallery-item').length) {
-            $('.justified-gallery > p > .gallery-item').unwrap();
-        }
-        $('.justified-gallery').justifiedGallery();
-    }
+    window.dispatchEvent(new Event('tabs:register'));
+  },
 
-    if (typeof moment === 'function') {
-        $('.article-meta time').each(function() {
-            $(this).text(moment($(this).attr('datetime')).fromNow());
-        });
-    }
+}
 
-    $('.article > .content > table').each(function() {
-        if ($(this).width() > $(this).parent().width()) {
-            $(this).wrap('<div class="table-overflow"></div>');
-        }
+
+// init
+init.toc()
+init.sidebar()
+init.relativeDate(document.querySelectorAll('#post-meta time'))
+init.registerTabsTag()
+
+// scrollreveal
+if (stellar.plugins.scrollreveal) {
+  stellar.loadScript(stellar.plugins.scrollreveal.js).then(function () {
+    ScrollReveal().reveal("body .reveal", {
+      distance: stellar.plugins.scrollreveal.distance,
+      duration: stellar.plugins.scrollreveal.duration,
+      interval: stellar.plugins.scrollreveal.interval,
+      scale: stellar.plugins.scrollreveal.scale,
+      easing: "ease-out"
     });
+  })
+}
 
-    function adjustNavbar() {
-        const navbarWidth = $('.navbar-main .navbar-start').outerWidth() + $('.navbar-main .navbar-end').outerWidth();
-        if ($(document).outerWidth() < navbarWidth) {
-            $('.navbar-main .navbar-menu').addClass('justify-content-start');
-        } else {
-            $('.navbar-main .navbar-menu').removeClass('justify-content-start');
-        }
-    }
-    adjustNavbar();
-    $(window).resize(adjustNavbar);
+// lazyload
+if (stellar.plugins.lazyload) {
+  stellar.loadScript(stellar.plugins.lazyload.js, {defer:true})
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+}
 
-    function toggleFold(codeBlock, isFolded) {
-        const $toggle = $(codeBlock).find('.fold i');
-        !isFolded ? $(codeBlock).removeClass('folded') : $(codeBlock).addClass('folded');
-        !isFolded ? $toggle.removeClass('fa-angle-right') : $toggle.removeClass('fa-angle-down');
-        !isFolded ? $toggle.addClass('fa-angle-down') : $toggle.addClass('fa-angle-right');
-    }
+// issuesjs
+if (stellar.plugins.sitesjs) {
+  const issues_api = document.getElementById('sites-api');
+  if (issues_api != undefined) {
+    stellar.jQuery( () => {
+      stellar.loadScript(stellar.plugins.sitesjs, {defer:true})
+    })
+  }
+}
+if (stellar.plugins.friendsjs) {
+  const issues_api = document.getElementById('friends-api');
+  if (issues_api != undefined) {
+    stellar.jQuery( () => {
+      stellar.loadScript(stellar.plugins.friendsjs, {defer:true})
+    })
+  }
+}
 
-    function createFoldButton(fold) {
-        return '<span class="fold">' + (fold === 'unfolded' ? '<i class="fas fa-angle-down"></i>' : '<i class="fas fa-angle-right"></i>') + '</span>';
-    }
+// swiper
+if (stellar.plugins.swiper) {
+  const swiper_api = document.getElementById('swiper-api');
+  if (swiper_api != undefined) {
+    stellar.loadCSS(stellar.plugins.swiper.css);
+    stellar.loadScript(stellar.plugins.swiper.js, {defer:true}).then(function () {
+      var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+        centeredSlides: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    })
+  }
+}
 
-    $('figure.highlight table').wrap('<div class="highlight-body">');
-    if (typeof config !== 'undefined'
-        && typeof config.article !== 'undefined'
-        && typeof config.article.highlight !== 'undefined') {
-
-        $('figure.highlight').addClass('hljs');
-        $('figure.highlight .code .line span').each(function() {
-            const classes = $(this).attr('class').split(/\s+/);
-            if (classes.length === 1) {
-                $(this).addClass('hljs-' + classes[0]);
-                $(this).removeClass(classes[0]);
-            }
-        });
-
-
-        const clipboard = config.article.highlight.clipboard;
-        const fold = config.article.highlight.fold.trim();
-
-        $('figure.highlight').each(function() {
-            if ($(this).find('figcaption').length) {
-                $(this).find('figcaption').addClass('level is-mobile');
-                $(this).find('figcaption').append('<div class="level-left">');
-                $(this).find('figcaption').append('<div class="level-right">');
-                $(this).find('figcaption div.level-left').append($(this).find('figcaption').find('span'));
-                $(this).find('figcaption div.level-right').append($(this).find('figcaption').find('a'));
-            } else {
-                if (clipboard || fold) {
-                    $(this).prepend('<figcaption class="level is-mobile"><div class="level-left"></div><div class="level-right"></div></figcaption>');
-                }
-            }
-        });
-
-        if (typeof ClipboardJS !== 'undefined' && clipboard) {
-            $('figure.highlight').each(function() {
-                const id = 'code-' + Date.now() + (Math.random() * 1000 | 0);
-                const button = '<a href="javascript:;" class="copy" title="Copy" data-clipboard-target="#' + id + ' .code"><i class="fas fa-copy"></i></a>';
-                $(this).attr('id', id);
-                $(this).find('figcaption div.level-right').append(button);
-            });
-            new ClipboardJS('.highlight .copy'); // eslint-disable-line no-new
-        }
-
-        if (fold) {
-            $('figure.highlight').each(function() {
-                if ($(this).find('figcaption').find('span').length > 0) {
-                    const span = $(this).find('figcaption').find('span');
-                    if (span[0].innerText.indexOf('>folded') > -1) {
-                        span[0].innerText = span[0].innerText.replace('>folded', '');
-                        $(this).find('figcaption div.level-left').prepend(createFoldButton('folded'));
-                        toggleFold(this, true);
-                        return;
-                    }
-                }
-                $(this).find('figcaption div.level-left').prepend(createFoldButton(fold));
-                toggleFold(this, fold === 'folded');
-            });
-
-            $('figure.highlight figcaption .fold').click(function() {
-                const $code = $(this).closest('figure.highlight');
-                toggleFold($code.eq(0), !$code.hasClass('folded'));
-            });
-        }
-    }
-
-    const $toc = $('#toc');
-    if ($toc.length > 0) {
-        const $mask = $('<div>');
-        $mask.attr('id', 'toc-mask');
-
-        $('body').append($mask);
-
-        function toggleToc() { // eslint-disable-line no-inner-declarations
-            $toc.toggleClass('is-active');
-            $mask.toggleClass('is-active');
-        }
-
-        $toc.on('click', toggleToc);
-        $mask.on('click', toggleToc);
-        $('.navbar-main .catalogue').on('click', toggleToc);
-    }
-}(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings));
+// preload
+if (stellar.plugins.preload) {
+  if (stellar.plugins.preload.service == 'instant_page') {
+    stellar.loadScript(stellar.plugins.preload.instant_page, {
+      defer: true,
+      type: 'module',
+      integrity: 'sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1'
+    })
+  } else if (stellar.plugins.preload.service == 'flying_pages') {
+    window.FPConfig = {
+      delay: 0,
+      ignoreKeywords: [],
+      maxRPS: 5,
+      hoverDelay: 25
+    };
+    stellar.loadScript(stellar.plugins.preload.flying_pages, {defer:true})
+  }
+}
