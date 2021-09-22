@@ -6,7 +6,7 @@
   <link href="https://www.cnsunqin.com/atom.xml" rel="self"/>
   
   <link href="https://www.cnsunqin.com/"/>
-  <updated>2021-09-22T07:35:06.003Z</updated>
+  <updated>2021-09-22T07:49:59.161Z</updated>
   <id>https://www.cnsunqin.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://www.cnsunqin.com/2021/09/22/fix-oven/"/>
     <id>https://www.cnsunqin.com/2021/09/22/fix-oven/</id>
     <published>2021-09-22T05:49:42.000Z</published>
-    <updated>2021-09-22T07:35:06.003Z</updated>
+    <updated>2021-09-22T07:49:59.161Z</updated>
     
     <content type="html"><![CDATA[<h1 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h1><p>最近家里用了好几年的长帝烤箱突然坏掉了。现象是开始加热后一段时间空开会自动跳掉，空开显示漏电保护。</p><h1 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h1><p>根据故障现象可以确认应该是某个原件在温度变高的时候会产生漏电。漏电保护判断漏电的原理是计算流入和流出电流的差超过一定阈值就会跳闸，所以我们就知道这个烤箱应该是火线或者零线在温度比较高的情况下对地会导通。因为一开始是没问题的，都是温度升高之后才会跳闸，所以直接测量对地阻值是测不出来的，要等烤箱热了跳闸之后在测量。分别测量零线、火线对地线的电阻，发现确实在温度高的时候只有几十k，然后随着温度慢慢降低阻值会慢慢升高。于是我采用排除法，先把热风电机和烤架电机的线断了，通电发现故障还是依旧，所以可以确认问题出在加热管上，分别测量加热管外壳与零火线的电阻，发现其中有一根阻值不为无穷大，另外三根都是无穷大，于是确定问题就出在这根加热管上。上淘宝购买更换后故障解除。</p>]]></content>
     
@@ -46,7 +46,7 @@
     <link href="https://www.cnsunqin.com/2021/08/10/new-start/"/>
     <id>https://www.cnsunqin.com/2021/08/10/new-start/</id>
     <published>2021-08-10T02:34:14.000Z</published>
-    <updated>2021-09-22T07:35:06.003Z</updated>
+    <updated>2021-09-22T07:49:59.165Z</updated>
     
     <content type="html"><![CDATA[<p>今天用hexo在github上搭了这个个人blog，非常方便。以后会多写一些文章放到这里来。</p>]]></content>
     
