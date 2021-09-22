@@ -5,4 +5,6 @@ layout: about
 comments: false
 sidebar: custom
 ---
-个人详细介绍
+
+一个兴趣广泛的程序员
+有问题可以联系： sqlxx@sina.com
