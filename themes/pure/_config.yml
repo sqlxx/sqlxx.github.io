@@ -188,46 +188,38 @@ profile:
   gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
   author: sqlxx
   author_title: 
-  author_description: 个人简介。
+  author_description: 一个兴趣广泛的程序员。
   location: Hangzhou, China
   follow: https://github.com/sqlxx
   # Social Links
   social:
     links:
       github: https://github.com/sqlxx
-      weibo: http://weibo.com/cofess
-      twitter: https://twitter.com/iwebued
+      weibo: http://weibo.com/sqlxx
       # facebook: /
       # dribbble: /
       rss: atom.xml
     link_tooltip: true # enable the social link tooltip, options: true, false
   # My Skills 
-  skills:
-    Git: ★★★☆☆
-    Gulp: ★★★☆☆
-    Javascript: ★★★☆☆
-    HTML+CSS: ★★★☆☆
-    Bootstrap: ★★★☆☆
+  # skills:
+  #  Git: ★★★☆☆
+  #  Gulp: ★★★☆☆
+  #  Javascript: ★★★☆☆
+  #  HTML+CSS: ★★★☆☆
+  #  Bootstrap: ★★★☆☆
   # My Personal Links
   links:
-    Github: https://github.com/sqlx
-    Blog: http://blog.cofess.com
-    微博: http://weibo.com/cofess
-    花瓣: http://huaban.com/cofess
-    Behance: https://www.behance.net/cofess
+    Github: https://github.com/sqlxx
+    Blog: https://blog.csdn.com/sqlxx
+    微博: https://weibo.com/sqlxx
   # My Personal Labels
   labels:
-    - 前端
-    - 前端开发
-    - 前端重构
-    - Web前端
-    - 网页重构
+    - 程序员
+    - 电子爱好者
   # My Personal Works
   works:
     name:
       link: http://www.cnsunqin.com
       date: 2016
   # My Personal Projects
-  projects:
-    cofess/gulp-startpro: https://github.com/cofess/gulp-startpro
-    cofess/hexo-theme-pure: https://github.com/cofess/hexo-theme-pure
+  # projects:
