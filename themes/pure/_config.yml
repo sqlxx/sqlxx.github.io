@@ -5,7 +5,6 @@ menu:
   Categories: categories  # 分类
   Tags: tags  # 标签
   Repository: repository  # github repositories
-  Books: books  # 豆瓣书单
   Links: links  # 友链
   About: about  # 关于
 
@@ -108,17 +107,17 @@ github:
 # Gitment
 # Introduction: https://imsun.net/posts/gitment-introduction/
 comment:
-  type: valine  # 启用哪种评论系统
+  type: gitment # 启用哪种评论系统
   disqus:  # enter disqus shortname here
   youyan: 
     uid: 1783844 # enter youyan uid 
   livere:
     uid: # enter youyan uid 
   gitment:
-    githubID: 
-    repo: 
-    ClientID: 
-    ClientSecret: 
+    githubID: sqlxx 
+    repo: sqlxx.github.io 
+    ClientID: 5c164344e415212b3e7f 
+    ClientSecret: 61fcf61f82e0b03da074f9d699ec90fdd7213328 
     lazy: false
   gitalk: # gitalk. https://gitalk.github.io/
     owner:  #必须. GitHub repository 所有者，可以是个人或者组织。
@@ -190,7 +189,7 @@ profile:
   author: sqlxx
   author_title: 
   author_description: 个人简介。
-  location: Shenzhen, China
+  location: Hangzhou, China
   follow: https://github.com/sqlxx
   # Social Links
   social:
