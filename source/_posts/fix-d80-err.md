@@ -2,7 +2,7 @@
 title: D80单反相机ERR错误修复
 date: 2021-09-26 10:00:15
 categories: 维修笔记
-tags: D80 维修
+tags: [D80, 维修]
 ---
 
 # 故障现象
