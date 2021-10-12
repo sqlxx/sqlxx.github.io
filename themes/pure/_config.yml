@@ -107,7 +107,7 @@ github:
 # Gitment
 # Introduction: https://imsun.net/posts/gitment-introduction/
 comment:
-  type: disqus # 启用哪种评论系统
+  type: gitalk # 启用哪种评论系统
   disqus:  sqlxx # enter disqus shortname here
   youyan: 
     uid: 1783844 # enter youyan uid 
